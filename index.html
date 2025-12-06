@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creo Classes - CAD Learning Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #000000;
+            color: #e2e8f0;
+            scroll-behavior: smooth;
+        }
+        
+        .feature-card {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-color: #3b82f6;
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #3b82f6;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+        }
+        
+        .social-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            transform: translateY(-3px) scale(1.1);
+        }
+        
+        .youtube:hover { color: #FF0000; }
+        .whatsapp:hover { color: #25D366; }
+        .envelope:hover { color: #EA4335; }
+        
+        /* Animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(45deg, rgba(59, 130, 246, 0.1) 0%, transparent 25%),
+                linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, transparent 25%),
+                linear-gradient(225deg, rgba(168, 85, 247, 0.1) 0%, transparent 25%),
+                linear-gradient(315deg, rgba(236, 72, 153, 0.1) 0%, transparent 25%),
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 25%),
+                radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 25%);
+            z-index: 5;
+            animation: gradientBackground 15s ease infinite;
+            background-size: 200% 200%;
+            pointer-events: none;
+        }
+
+        @keyframes gradientBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Ensure video stays behind the animated background */
+        #heroVideo {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Ensure content appears above both video and animation */
+        [data-aos] {
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* Form Styles */
+        .form-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            position: absolute;
+            left: 1rem;
+            top: 1rem;
+            color: #9ca3af;
+            background-color: #111827;
+            padding: 0 0.5rem;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            transform-origin: left center;
+            border-radius: 0.25rem;
+        }
+        
+        .form-group.focused .form-label,
+        .form-group input:focus + .form-label,
+        .form-group textarea:focus + .form-label,
+        .form-group input:not(:placeholder-shown) + .form-label,
+        .form-group textarea:not(:placeholder-shown) + .form-label {
+            transform: translateY(-1.75rem) scale(0.85);
+            color: #3b82f6;
+            background-color: #111827;
+            padding: 0 0.5rem;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-gray-900 bg-opacity-90 backdrop-filter backdrop-blur-md z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#home" class="flex items-center group transform hover:scale-105 transition-transform duration-300">
+                        <span class="text-3xl md:text-4xl font-extrabold">
+                            <span class="text-white">Creo</span>
+                            <span class="text-white"> Classes</span>
+                        </span>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#home" class="nav-link text-white hover:text-white px-4 py-3 text-base font-medium hover:bg-gray-800 rounded-lg transition-all duration-300 transform hover:scale-105 flex items-center">
+                        <span class="mr-2">🏠</span> Home
+                    </a>
+                    <a href="#features" class="nav-link text-white hover:text-white px-4 py-3 text-base font-medium hover:bg-gray-800 rounded-lg transition-all duration-300 transform hover:scale-105 flex items-center">
+                    <a href="#features" class="nav-link text-gray-300 hover:text-white px-4 py-3 text-base font-medium hover:bg-gray-800 rounded-lg transition-all duration-300 transform hover:scale-105 flex items-center">
+                        <span class="mr-2">🎥</span> Videos
+                    </a>
+                    <a href="#resources" class="nav-link text-gray-300 hover:text-white px-4 py-3 text-base font-medium hover:bg-gray-800 rounded-lg transition-all duration-300 transform hover:scale-105 flex items-center">
+                        <span class="mr-2">📚</span> Resources
+                    </a>
+                    <a href="#contact" class="nav-link text-gray-300 hover:text-white px-4 py-3 text-base font-medium hover:bg-gray-800 rounded-lg transition-all duration-300 transform hover:scale-105 flex items-center">
+                        <span class="mr-2">📞</span> Contact
+                    </a>
+                    <a href="https://www.youtube.com/channel/UCf4sVUKAjhHUjchUeiWzA2w/join" target="_blank" 
+                       class="bg-gradient-to-r from-blue-600 to-blue-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-blue-500/30 flex items-center">
+                        <span class="mr-2">🚀</span> Join Membership
+                    </a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <!-- Mobile menu button -->
+                    <button id="mobile-menu-button" class="text-gray-300 hover:text-white focus:outline-none">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-gray-800 bg-opacity-95 backdrop-filter backdrop-blur-lg">
+            <div class="px-4 pt-3 pb-5 space-y-2">
+                <a href="#home" class="flex items-center px-4 py-3 text-lg font-medium text-gray-300 hover:bg-gray-700 rounded-lg transition-all duration-300">
+                    <span class="mr-3 text-xl">🏠</span> Home
+                </a>
+                <a href="#features" class="flex items-center px-4 py-3 text-lg font-medium text-gray-300 hover:bg-gray-700 rounded-lg transition-all duration-300">
+                    <span class="mr-3 text-xl">🎥</span> Videos
+                </a>
+                <a href="#resources" class="flex items-center px-4 py-3 text-lg font-medium text-gray-300 hover:bg-gray-700 rounded-lg transition-all duration-300">
+                    <span class="mr-3 text-xl">📚</span> Resources
+                </a>
+                <a href="#contact" class="flex items-center px-4 py-3 text-lg font-medium text-gray-300 hover:bg-gray-700 rounded-lg transition-all duration-300">
+                    <span class="mr-3 text-xl">📞</span> Contact
+                </a>
+                <a href="https://www.youtube.com/channel/UCf4sVUKAjhHUjchUeiWzA2w/join" target="_blank" 
+                   class="flex items-center justify-center w-full mt-4 bg-gradient-to-r from-blue-600 to-blue-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-600 transition-all duration-300 shadow-lg hover:shadow-blue-500/30">
+                    <span class="mr-2 text-xl">🚀</span> Join Membership
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="pt-24 pb-16 md:pt-32 md:pb-24 px-0 w-full">
+        <div class="flex flex-col lg:flex-row items-center max-w-[95%] 2xl:max-w-[85%] mx-auto">
+            <div class="w-full lg:w-5/12 px-6 lg:px-10 mb-10 lg:mb-0" data-aos="fade-right">
+                <h1 class="text-4xl md:text-5xl xl:text-6xl font-bold leading-tight mb-6">
+                    Master <span class="text-blue-400">CAD Design</span> with Expert Guidance
+                </h1>
+                <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl">
+                    Learn 2D & 3D CAD modeling with our expert tutorials. Need professional design work done? Contact us for custom project design services.
+                </p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="https://www.youtube.com/@creoclasses4580/featured" target="_blank" class="btn-primary text-white px-8 py-3 rounded-lg font-semibold text-center">
+                        <i class="fab fa-youtube mr-2"></i> Subscribe Now
+                    </a>
+                    <a href="#features" class="bg-gray-800 text-white px-8 py-3 rounded-lg font-semibold text-center hover:bg-gray-700 transition duration-300">
+                        Explore Courses
+                    </a>
+                </div>
+            </div>
+            <div class="w-full lg:w-7/12" data-aos="fade-left">
+                <div class="relative w-full">
+                    <video id="heroVideo" class="w-full h-auto rounded-none lg:rounded-l-xl shadow-2xl transform transition-transform duration-300 hover:scale-102" autoplay muted loop playsinline style="max-height: 90vh;">
+                        <source src="creo-classes-intro.mp4.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div id="playButton" class="absolute inset-0 flex items-center justify-center">
+                        <div class="w-36 h-36 bg-blue-600 bg-opacity-90 rounded-full flex items-center justify-center cursor-pointer hover:bg-opacity-100 transition-all duration-300 transform hover:scale-110">
+                            <i class="fas fa-play text-white text-6xl ml-2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Featured <span class="text-blue-400">Videos</span></h2>
+            <div class="w-20 h-1 bg-blue-500 mx-auto"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Creo 7.0 Tutorial -->
+            <div class="feature-card rounded-xl overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+                <div class="relative">
+                    <img src="https://img.youtube.com/vi/KTp_z8Tu-fI/maxresdefault.jpg" alt="Creo Parametric 7.0 Tutorial" class="w-full h-48 object-cover">
+                    <a href="https://www.youtube.com/watch?v=KTp_z8Tu-fI&list=PLAcWEL0F3INdzu3fbN8avXjMKhKvoX3gb" target="_blank" class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 opacity-0 hover:opacity-100 transition-opacity duration-300">
+                        <div class="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center transform hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-play text-white text-xl"></i>
+                        </div>
+                    </a>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white mb-2">Jet Engine Design Tutorial</h3>
+                    <p class="text-gray-300 mb-4">Master the fundamentals of jet engine design and modeling in Creo.</p>
+                    <a href="https://www.youtube.com/watch?v=KTp_z8Tu-fI&list=PLAcWEL0F3INdzu3fbN8avXjMKhKvoX3gb" target="_blank" class="text-blue-400 hover:text-blue-300 font-medium inline-flex items-center">
+                        Watch Now <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- JCB Heavy Equipment Modeling -->
+            <div class="feature-card rounded-xl overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+                <div class="relative">
+                    <img src="https://img.youtube.com/vi/m_e93U6hJ60/maxresdefault.jpg" alt="JCB Heavy Equipment Modeling" class="w-full h-48 object-cover">
+                    <a href="https://www.youtube.com/watch?v=m_e93U6hJ60&list=PLAcWEL0F3INcYsXxB2EnXQla_qWSg6qed" target="_blank" class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 opacity-0 hover:opacity-100 transition-opacity duration-300">
+                        <div class="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center transform hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-play text-white text-xl"></i>
+                        </div>
+                    </a>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white mb-2">JCB Heavy Equipment Modeling</h3>
+                    <p class="text-gray-300 mb-4">Step-by-step guide to modeling heavy construction equipment in Creo.</p>
+                    <a href="https://www.youtube.com/watch?v=m_e93U6hJ60&list=PLAcWEL0F3INcYsXxB2EnXQla_qWSg6qed" target="_blank" class="text-blue-400 hover:text-blue-300 font-medium inline-flex items-center">
+                        Watch Now <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- CNC Milling Machine Design -->
+            <div class="feature-card rounded-xl overflow-hidden" data-aos="fade-up" data-aos-delay="300">
+                <div class="relative">
+                    <img src="https://img.youtube.com/vi/TCCvCThm1WE/maxresdefault.jpg" alt="CNC Milling Machine Design" class="w-full h-48 object-cover">
+                    <a href="https://www.youtube.com/watch?v=TCCvCThm1WE&list=PLAcWEL0F3INdu2jNnizJMUASK_s-bjGSq" target="_blank" class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 opacity-0 hover:opacity-100 transition-opacity duration-300">
+                        <div class="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center transform hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-play text-white text-xl"></i>
+                        </div>
+                    </a>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white mb-2">Milling Machine Design</h3>
+                    <p class="text-gray-300 mb-4">Complete tutorial on designing a CNC milling machine using Creo.</p>
+                    <a href="https://www.youtube.com/watch?v=TCCvCThm1WE&list=PLAcWEL0F3INdu2jNnizJMUASK_s-bjGSq" target="_blank" class="text-blue-400 hover:text-blue-300 font-medium inline-flex items-center">
+                        Watch Now <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section id="resources" class="py-20 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">CAD <span class="text-blue-400">Resources</span></h2>
+                <div class="w-20 h-1 bg-blue-500 mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- 2D CAD Drawings -->
+                <div class="bg-gray-800 rounded-xl overflow-hidden transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl" data-aos="fade-up" data-aos-delay="100">
+                    <div class="h-48 bg-gradient-to-r from-blue-500 to-blue-700 flex items-center justify-center">
+                        <i class="fas fa-drafting-compass text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-3">2D CAD Drawings</h3>
+                        <p class="text-gray-300 mb-6">Access our library of 2D CAD drawings and templates for your projects.</p>
+                        <a href="https://drive.google.com/drive/folders/1eob1BE7js3Zft-fH6ao5Xz2kzJqiHJgp" target="_blank" class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition duration-300">
+                            View Resources
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 3D CAD Models -->
+                <div class="bg-gray-800 rounded-xl overflow-hidden transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl" data-aos="fade-up" data-aos-delay="200">
+                    <div class="h-48 bg-gradient-to-r from-purple-500 to-purple-700 flex items-center justify-center">
+                        <i class="fas fa-cube text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-3">3D CAD Models</h3>
+                        <p class="text-gray-300 mb-6">Explore our collection of 3D CAD models for various applications.</p>
+                        <a href="https://drive.google.com/drive/folders/1GhaoGXglU-byds3Pm2k8nBjUeGhbutMg" target="_blank" class="inline-block bg-purple-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-purple-700 transition duration-300">
+                            View Resources
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Advanced CAD Models -->
+                <div class="bg-gray-800 rounded-xl overflow-hidden transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl" data-aos="fade-up" data-aos-delay="300">
+                    <div class="h-48 bg-gradient-to-r from-indigo-500 to-indigo-700 flex items-center justify-center">
+                        <i class="fas fa-shapes text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-3">Advanced CAD Models</h3>
+                        <p class="text-gray-300 mb-6">Access our premium collection of advanced CAD models and designs.</p>
+                        <a href="https://forms.gle/5fUkhvpRdrX9MPF5A" target="_blank" class="inline-block bg-indigo-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-indigo-700 transition duration-300">
+                            Request Access
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="fixed bottom-8 right-8 bg-blue-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:bg-blue-700 transition duration-300 opacity-0 invisible">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Particle Background -->
+    <div class="particles" id="particles-js"></div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Initialize AOS (Animate On Scroll)
+        AOS.init({
+            duration: 800,
+            once: true,
+            easing: 'ease-in-out',
+            offset: 100
+        });
+
+        // Preloader
+        window.addEventListener('load', function() {
+            const preloader = document.getElementById('preloader');
+            preloader.classList.add('fade-out');
+            setTimeout(() => {
+                preloader.style.display = 'none';
+            }, 500);
+        });
+
+        // Particle.js Configuration
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 80,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: '#3b82f6'
+                },
+                shape: {
+                    type: 'circle',
+                    stroke: {
+                        width: 0,
+                        color: '#000000'
+                    }
+                },
+                opacity: {
+                    value: 0.5,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 1,
+                        opacity_min: 0.1,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 2,
+                        size_min: 0.1,
+                        sync: false
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#3b82f6',
+                    opacity: 0.2,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1,
+                    direction: 'none',
+                    random: true,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: 'grab'
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: 'push'
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 140,
+                        line_linked: {
+                            opacity: 0.5
+                        }
+                    },
+                    push: {
+                        particles_nb: 4
+                    }
+                }
+            },
+            retina_detect: true
+        });
+
+        // Add hover effect to all buttons
+        const buttons = document.querySelectorAll('button, a.btn, .btn');
+        buttons.forEach(button => {
+            button.addEventListener('mouseenter', function(e) {
+                const x = e.pageX - this.offsetLeft;
+                const y = e.pageY - this.offsetTop;
+                
+                const ripple = document.createElement('span');
+                ripple.className = 'ripple';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 1000);
+            });
+        });
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+
+        // Back to top button
+        const backToTopButton = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.remove('opacity-0', 'invisible');
+                backToTopButton.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopButton.classList.remove('opacity-100', 'visible');
+                backToTopButton.classList.add('opacity-0', 'invisible');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Add ripple effect styles
+        const style = document.createElement('style');
+        style.textContent = `
+            .ripple {
+                position: absolute;
+                background: rgba(255, 255, 255, 0.4);
+                border-radius: 50%;
+                transform: scale(0);
+                animation: ripple 0.6s linear;
+                pointer-events: none;
+            }
+            
+            @keyframes ripple {
+                to {
+                    transform: scale(2.5);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Smooth scrolling for anchor links with offset for fixed header
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    // Close mobile menu if open
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                    
+                    // Scroll to target
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100, // Adjust for fixed header with more space
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Video play button functionality
+        const heroVideo = document.getElementById('heroVideo');
+        const playButton = document.getElementById('playButton');
+
+        if (heroVideo && playButton) {
+            // Toggle play/pause when clicking the play button
+            playButton.addEventListener('click', () => {
+                if (heroVideo.paused) {
+                    heroVideo.play();
+                    playButton.style.display = 'none';
+                } else {
+                    heroVideo.pause();
+                    playButton.style.display = 'flex';
+                }
+            });
+
+            // Show play button when video ends (if not looping)
+            heroVideo.addEventListener('ended', () => {
+                playButton.style.display = 'flex';
+            });
+
+            // Hide play button after video starts playing
+            heroVideo.addEventListener('playing', () => {
+                playButton.style.display = 'none';
+            });
+        }
+    </script>
+
+    <!-- Join Our Community Section (Moved to End) -->
+    <section id="community" class="py-20 bg-gradient-to-b from-gray-900 to-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Join Our <span class="text-blue-400">Community</span></h2>
+                <p class="text-xl text-gray-300 max-w-2xl mx-auto">Connect with us and take your CAD skills to the next level</p>
+                <div class="w-20 h-1 bg-blue-500 mx-auto mt-4"></div>
+            </div>
+            
+            <div class="max-w-4xl mx-auto" data-aos="fade-up">
+                <div class="social-box bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-8 shadow-2xl border border-gray-700 hover:border-blue-500 transition-all duration-500 hover:shadow-blue-500/20">
+                    <h3 class="text-2xl md:text-3xl font-bold text-white text-center mb-8">Connect With Us</h3>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <!-- Email -->
+                        <a href="mailto:creoclasses@gmail.com" class="social-item group bg-gray-800 hover:bg-gray-700 rounded-xl p-6 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+                            <div class="flex items-center">
+                                <div class="social-icon bg-blue-600 group-hover:bg-blue-500 text-white p-4 rounded-xl mr-4 transition-all duration-300 group-hover:scale-110">
+                                    <i class="fas fa-envelope text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-semibold text-white">Email Us</h4>
+                                    <p class="text-gray-400 text-sm">creoclasses@gmail.com</p>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- WhatsApp -->
+                        <a href="https://chat.whatsapp.com/CDPfoZqbSJMEQIUZBXGNHD" target="_blank" class="social-item group bg-gray-800 hover:bg-gray-700 rounded-xl p-6 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+                            <div class="flex items-center">
+                                <div class="social-icon bg-green-600 group-hover:bg-green-500 text-white p-4 rounded-xl mr-4 transition-all duration-300 group-hover:scale-110">
+                                    <i class="fab fa-whatsapp text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-semibold text-white">WhatsApp Group</h4>
+                                    <p class="text-gray-400 text-sm">Join our community</p>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- YouTube -->
+                        <a href="https://www.youtube.com/@creoclasses4580/featured" target="_blank" class="social-item group bg-gray-800 hover:bg-gray-700 rounded-xl p-6 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+                            <div class="flex items-center">
+                                <div class="social-icon bg-red-600 group-hover:bg-red-500 text-white p-4 rounded-xl mr-4 transition-all duration-300 group-hover:scale-110">
+                                    <i class="fab fa-youtube text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-semibold text-white">YouTube Channel</h4>
+                                    <p class="text-gray-400 text-sm">Watch tutorials</p>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Membership -->
+                        <a href="https://www.youtube.com/channel/UCf4sVUKAjhHUjchUeiWzA2w/join" target="_blank" class="social-item group bg-gray-800 hover:bg-gray-700 rounded-xl p-6 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+                            <div class="flex items-center">
+                                <div class="social-icon bg-yellow-600 group-hover:bg-yellow-500 text-white p-4 rounded-xl mr-4 transition-all duration-300 group-hover:scale-110">
+                                    <i class="fas fa-crown text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-semibold text-white">Premium Membership</h4>
+                                    <p class="text-gray-400 text-sm">Unlock exclusive content</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- New Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <!-- CreoClasses Info -->
+                <div class="space-y-4">
+                    <h3 class="text-2xl font-bold">Creo<span class="text-blue-400">Classes</span></h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Master CAD design with our comprehensive tutorials and resources for all skill levels.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-blue-400 transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-blue-400 transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-blue-400 transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-blue-400 transition-colors">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4 uppercase tracking-wider">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#home" class="text-gray-400 hover:text-white transition-colors text-sm">Home</a></li>
+                        <li><a href="#features" class="text-gray-400 hover:text-white transition-colors text-sm">Features</a></li>
+                        <li><a href="#resources" class="text-gray-400 hover:text-white transition-colors text-sm">Resources</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition-colors text-sm">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Resources -->
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4 uppercase tracking-wider">Resources</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Tutorials</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">2D CAD Drawings</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">3D CAD Models</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Advanced Resources</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Us -->
+                <div class="space-y-4">
+                    <h4 class="text-lg font-semibold text-white mb-4 uppercase tracking-wider">Mail Us</h4>
+                    <p class="text-gray-400 text-sm">Have questions? We're here to help.</p>
+                    <a href="mailto:creoclasses@gmail.com" class="text-blue-400 hover:text-blue-300 text-sm font-medium">
+                        creoclasses@gmail.com
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Copyright -->
+            <div class="border-t border-gray-800 mt-12 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-sm"> 2025 Creo Classes. All rights reserved.</p>
+                    <div class="flex space-x-6 mt-4 md:mt-0">
+                        <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">Privacy Policy</a>
+                        <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">Terms of Service</a>
+                        <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">Sitemap</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
